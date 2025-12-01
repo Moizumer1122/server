@@ -5,15 +5,22 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const cors = require("cors");
-const TodoModal = require("./modals/Todo");
 const app = express();
-52-52
-let mongo_URL = "mongodb+srv://moizumer:Password123@cluster0.dhbnquq.mongodb.net/Todo?appName=Cluster0"
-mongoose.connect(mongo_URL)
 
+const TodoModal = require("./modals/Todo");
 app.use(cors())
 app.use(express.json())
 
+let mongo_URL = "mongodb+srv://moizumer:Password123@cluster0.dhbnquq.mongodb.net/Todo?appName=Cluster0"
+try {
+    mongoose.connect(mongo_URL)
+    console.log('mongodb connected')
+} catch (error) {
+    console.log("mongodb is not connected",error)
+    
+}
+
+// AGR KOI CLIENT DATA SEND KR RHA HO TO KASA RES OR REQ HANDLE KRNA HA
 app.post("/createTodo", async (req, res) => {
     const todo = req.body;
     const newTodo = new TodoModal(todo);
@@ -23,6 +30,16 @@ app.post("/createTodo", async (req, res) => {
     } catch (error) {
         res.json(error)
     }
+})
+// AGR KOI CLIENT DATA READ KRNA CHAHTA HO TO KASA RES OR REQ HANDLE KRNA HA
+app.get("/readTodos", async (req, res) => {
+    try {
+        const todos = await TodoModal.find({});
+        res.send(todos)
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 const PORT = 8000;

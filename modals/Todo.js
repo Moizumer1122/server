@@ -8,5 +8,5 @@ const TodoSchema = new mongoose.Schema({
     location: { type: String, required: true }
 
 })
-const UserModel = mongoose.model("todos", TodoSchema);
-module.exports = TodoSchema;
+const TodoModel = mongoose.model("todos", TodoSchema);
+module.exports = TodoModel;
