@@ -2,6 +2,7 @@
 // moiz umer username 
 // todo-mern db name 
 // to start the server use node index.js
+require('dotenv').config()
 const express = require('express');
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -10,14 +11,13 @@ const app = express();
 const TodoModal = require("./modals/Todo");
 app.use(cors())
 app.use(express.json())
-
-let mongo_URL = "mongodb+srv://moizumer:Password123@cluster0.dhbnquq.mongodb.net/Todo?appName=Cluster0"
+let mongo_URL = process.env.DB_URL
 try {
     mongoose.connect(mongo_URL)
     console.log('mongodb connected')
 } catch (error) {
-    console.log("mongodb is not connected",error)
-    
+    console.log("mongodb is not connected", error)
+
 }
 
 // AGR KOI CLIENT DATA SEND KR RHA HO TO KASA RES OR REQ HANDLE KRNA HA
@@ -39,18 +39,31 @@ app.get("/readTodos", async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-    
+
 })
 // AGR KOI CLIENT DATA UPDATE KRNA CHAHTA HO TO KASA RES OR REQ HANDLE KRNA HA
 app.post("/updateTodo", async (req, res) => {
     try {
         const todo = req.body
-        await TodoModal.findByIdAndUpdate(todo._id, { name: 'Updated title' })
+        let data = { ...todo }
+        delete data._id
+        await TodoModal.findByIdAndUpdate(todo._id, data)
         res.send("todo updated")
+    } catch (error) {
+        res.send("something went wrong")
+    }
+
+})
+// AGR KOI CLIENT DATA DELETE KRNA CHAHTA HO TO KASA RES OR REQ HANDLE KRNA HA
+app.delete("/deleteTodo/:_id", async (req, res) => {
+    try {
+        const { _id } = req.params
+        console.log('_id', _id)
+        await TodoModal.findByIdAndDelete(_id)
+        res.send("todo deleted")
     } catch (error) {
         console.log(error)
     }
-
 })
 
 const PORT = 8000;
