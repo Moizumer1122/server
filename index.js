@@ -39,6 +39,17 @@ app.get("/readTodos", async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    
+})
+// AGR KOI CLIENT DATA UPDATE KRNA CHAHTA HO TO KASA RES OR REQ HANDLE KRNA HA
+app.post("/updateTodo", async (req, res) => {
+    try {
+        const todo = req.body
+        await TodoModal.findByIdAndUpdate(todo._id, { name: 'Updated title' })
+        res.send("todo updated")
+    } catch (error) {
+        console.log(error)
+    }
 
 })
 
