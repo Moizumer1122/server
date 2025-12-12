@@ -23,6 +23,9 @@ try {
     console.log("mongodb is not connected", error)
 
 }
+app.get("/", (req, res) => {
+    res.send("Server is running successfully!");
+});
 
 // AGR KOI CLIENT DATA SEND KR RHA HO TO KASA RES OR REQ HANDLE KRNA HA
 app.post("/createTodo", async (req, res) => {
