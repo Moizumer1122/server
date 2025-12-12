@@ -10,8 +10,7 @@ const app = express();
 
 const TodoModal = require("./modals/Todo");
 app.use(cors({
-    origin: "https://client-todo-murex.vercel.app", // Your Frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
+   origin: process.env.FRONTEND_URL, 
     credentials: true
 }));
 app.use(express.json())
