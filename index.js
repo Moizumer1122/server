@@ -9,7 +9,11 @@ const cors = require("cors");
 const app = express();
 
 const TodoModal = require("./modals/Todo");
-app.use(cors())
+app.use(cors({
+    origin: "https://client-todo-murex.vercel.app", // Your Frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(express.json())
 let mongo_URL = process.env.DB_URL
 try {
